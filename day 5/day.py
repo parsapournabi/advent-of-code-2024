@@ -22,3 +22,27 @@ with open("input.txt", "r") as file:
             ans += int(pages[i][ceil(len(pages[i]) // 2)])
 
     print(ans)
+# Part Two
+with open("input.txt", "r") as file:
+    data = file.read().split()
+    pairs = defaultdict(set)
+    for d in data:
+        if "|" in d:
+            k, v = d.split("|")
+            pairs[k].add(v)
+    pages = [d.split(",") for d in data if "," in d]
+    ans = 0
+    for i in range(len(pages)):
+        len_page = len(pages[i])
+        al = False
+        for j in range(len_page):
+            k = j + 1
+            while k < len_page:
+                if pages[i][k] not in pairs[pages[i][j]]:
+                    pages[i][k], pages[i][j] = pages[i][j], pages[i][k]
+                    al = True
+                k += 1
+        if al:
+            ans += int(pages[i][ceil(len(pages[i]) // 2)])
+
+    print(ans)
